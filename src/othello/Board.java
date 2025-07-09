@@ -4,11 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -23,31 +21,28 @@ public class Board {
 	String currentTurn;
 	Model model;
 	boolean reverse;
-	ArrayList<ArrayList<Piece>> pieces = new ArrayList<ArrayList<Piece>>();
+	ArrayList<ArrayList<Piece>> pieces = new ArrayList<>();
 
 	public Board(String player, Model m) {
 		model = m;
-		model.storeView(this);
 		guiFrame = new JFrame();
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Reversi - " + player + " player");
 		playerColorLbl = player;
-		if (playerColorLbl == "White") {
+		if (playerColorLbl.equals("White")) {
 			playerColor = Color.WHITE;
 			currentTurn = " player - click place to put piece";
 			reverse = false;
-		} else if (player == "Black") {
+		} else if (playerColorLbl.equals("Black")) {
 			playerColor = Color.BLACK;
 			currentTurn = " player - not your turn";
 			reverse = true;
 		}
 		playingSpace.setLayout(new GridLayout(8, 8));
 		JButton greedyAI = new JButton("GreedyAI (play " + player + ")");
-		greedyAI.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(model.getCurrentPlayer() == playerColor) {
-					model.makeMove(playerColor, reverse);
-				}
+		greedyAI.addActionListener((ActionEvent e) -> {
+			if (model.getCurrentPlayer() == playerColor) {
+				model.makeMove(playerColor, reverse);
 			}
 		});
 
@@ -78,10 +73,11 @@ public class Board {
 
 	public void initialise() {
 		for (int x = 0; x < 8; x++) {
-			pieces.add(new ArrayList<Piece>());
+			pieces.add(new ArrayList<>());
 			for (int y = 0; y < 8; y++) {
 				Piece piece = new Piece(x, y);
 				piece.addMouseListener(new MouseAdapter() {
+					@Override
 					public void mouseClicked(MouseEvent me) {
 						ArrayList<Integer> position = ((Piece) me.getSource()).getPosition();
 						updatePieces(position.get(0), position.get(1));
@@ -92,6 +88,7 @@ public class Board {
 			}
 		}
 		guiFrame.pack();
+		model.storeView(this);
 	}
 
 	public void setTag(String tag) {

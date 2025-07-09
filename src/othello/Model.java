@@ -2,13 +2,12 @@ package othello;
 
 import java.awt.Color;
 import java.util.ArrayList;
-
 import javax.swing.JOptionPane;
 
 public class Model {
 
-	ArrayList<Board> views = new ArrayList<Board>();
-	ArrayList<ArrayList<Piece>> pieces = new ArrayList<ArrayList<Piece>>();
+	ArrayList<Board> views = new ArrayList<>();
+	ArrayList<ArrayList<Piece>> pieces = new ArrayList<>();
 	Color currentPlayer;
 
 	public ArrayList<ArrayList<Piece>> getPieces() {
@@ -18,7 +17,7 @@ public class Model {
 	public void initialise() {
 		currentPlayer = Color.WHITE;
 		for (int i = 0; i < 8; i++) {
-			pieces.add(new ArrayList<Piece>());
+			pieces.add(new ArrayList<>());
 			for (int y = 0; y < 8; y++) {
 				pieces.get(i).add(new Piece(i, y));
 			}
@@ -91,10 +90,7 @@ public class Model {
 				countOver++;
 			}
 		}
-		if (countOver == 2) {
-			return true;
-		}
-		return false;
+		return countOver == 2;
 	}
 
 	public void update(int x, int y, Color playerColor, boolean reverse) {
@@ -112,7 +108,7 @@ public class Model {
 
 	public void makeMove(Color playerColor, boolean reverse) {
 		int maxPieces = 0;
-		ArrayList<Integer> position = new ArrayList<Integer>();
+		ArrayList<Integer> position = new ArrayList<>();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				if (pieces.get(x).get(y).getColor() != Color.WHITE && pieces.get(x).get(y).getColor() != Color.BLACK) {
@@ -333,5 +329,4 @@ public class Model {
 		}
 		return 0;
 	}
-
 }
